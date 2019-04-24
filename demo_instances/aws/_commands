@@ -1,0 +1,3 @@
+./run_command.sh dev 'sudo hab svc load jvdemo/inspec-cis-centos7-demo --strategy=at-once --channel=unstable --group dev'
+
+./run_command.sh dev 'sudo hab svc load jvdemo/inspec-cis-centos7-demo --strategy=at-once --channel=stable --group prod'

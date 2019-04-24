@@ -1,0 +1,80 @@
+////////////////////////////////
+// AWS Connection
+
+aws_region="us-east-1"
+
+aws_profile="default"
+
+aws_key_pair_file = "~/.ssh/habichef_demo.pem"
+
+aws_key_pair_name = "habichef_demo"
+
+////////////////////////////////
+// Object Tags
+
+tag_customer="habichef_demo"
+
+tag_project="habichef_demo"
+
+tag_name="cheffy mcchef"
+
+tag_dept="ace"
+
+tag_contact="success@chef.io"
+
+tag_application="habichef"
+
+////////////////////////////////
+// Habitat Depot Config
+
+habitat_depot_hostname = "jv-hab-depot.chef-demo.com"
+habitat_oauth_provider = "github"
+habitat_oauth_userinfo_url = "https://api.github.com/user"
+habitat_oauth_authorize_url = "https://github.com/login/oauth/authorize"
+habitat_oauth_token_url = "https://github.com/login/oauth/access_token"
+habitat_oauth_client_id = "0123456789abcdef0123"
+habitat_oauth_client_secret = "0123456789abcdef0123456789abcdef01234567"
+// NOTE: to create the github client id/secret vist
+// https://github.com/settings/applications/new
+// Homepage URL: https://<yourhostname>
+// Authorization Callback URL: https://<yourhostname>/ (note trailing slash)
+habitat_depot_alb_acm_matcher = "*.chef-demo.com"
+habitat_depot_alb_r53_matcher = "chef-demo.com."
+
+////////////////////////////////
+// Automate Config
+
+automate_hostname="jv-a2.chef-demo.com"
+automate_license = "Insert your automate 2 license key here"
+
+// NOTE: If you have an acm cert and r53 managed hosted zone, you
+// can use chef_automate_alb.tf.example to build out an ALB with SSL
+// and DNS via R53.
+// ** You do not need to set custom ssl key and chain in this scenario **
+
+automate_alb_acm_matcher = "*.chef-demo.com"
+automate_alb_r53_matcher = "chef-demo.com."
+
+automate_custom_ssl = "false"
+automate_custom_ssl_private_key = <<EOF
+Insert private key here
+EOF
+
+automate_custom_ssl_cert_chain = <<EOF
+Insert cert chain here
+EOF
+
+/////////////////////////////////
+// Concourse CI Variables
+
+concourse_db_node_size="t2.medium"
+
+concourse_web_node_size="t2.medium"
+
+concourse_worker_node_size="t2.medium"
+
+concourse_worker_count="3"
+
+concourse_user_name="admin"
+
+concourse_user_password="aws123"

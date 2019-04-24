@@ -1,0 +1,43 @@
+////////////////////////////////
+// AWS Connection
+
+aws_region="us-east-1"
+
+aws_profile="default"
+
+aws_key_pair_file = "~/.ssh/habichef_demo.pem"
+
+aws_key_pair_name = "habichef_demo"
+
+////////////////////////////////
+// Object Tags
+
+tag_customer="habichef_demo"
+
+tag_project="habichef_demo"
+
+tag_name="cheffy mcchef"
+
+tag_dept="ace"
+
+tag_contact="success@chef.io"
+
+tag_application="habichef"
+
+tag_ttl="8"
+
+/////////////////////////////////
+// Concourse CI Variables
+
+concourse_db_node_size="t2.medium"
+
+concourse_web_node_size="t2.medium"
+
+concourse_worker_node_size="t2.medium"
+
+concourse_worker_count="3"
+
+concourse_user_name="admin"
+
+concourse_user_password="aws123"
+

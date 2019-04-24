@@ -1,0 +1,73 @@
+resource "aws_lb" "habitat_depot" {
+  load_balancer_type = "application"
+  name               = "habitat-depot-${random_id.instance_id.hex}"
+  internal           = "false"
+  security_groups    = ["${aws_security_group.habitat_depot.id}"]
+  subnets            = ["${aws_subnet.habichef-subnet-a.id}","${aws_subnet.habichef-subnet-b.id}"]
+  tags               = {
+    Name               = "${var.tag_customer}-${var.tag_project}_${random_id.instance_id.hex}_${var.tag_application}_alb"
+    X-Dept             = "${var.tag_dept}"
+    X-Customer         = "${var.tag_customer}"
+    X-Project          = "${var.tag_project}"
+    X-Application      = "${var.tag_application}"
+    X-Contact          = "${var.tag_contact}"
+    X-TTL              = "${var.tag_ttl}"
+  }
+}
+
+resource "aws_lb_target_group" "habitat_depot" {
+  name                 = "habitat-depot-${random_id.instance_id.hex}"
+  vpc_id               = "${aws_vpc.habichef-vpc.id}"
+  port                 = "443"
+  protocol             = "HTTPS"
+  
+  depends_on = ["aws_lb.habitat_depot"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_acm_certificate" "habitat_depot" {
+  domain   = "${var.habitat_depot_alb_acm_matcher}"
+  statuses = ["ISSUED"]
+  most_recent = true
+}
+
+resource "aws_lb_listener" "habitat_depot" {
+  load_balancer_arn = "${aws_lb.habitat_depot.arn}"
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = "${data.aws_acm_certificate.habitat_depot.arn}"
+  default_action {
+    target_group_arn = "${aws_lb_target_group.habitat_depot.id}"
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_listener_certificate" "habitat_depot" {
+  listener_arn    = "${aws_lb_listener.habitat_depot.arn}"
+  certificate_arn = "${data.aws_acm_certificate.habitat_depot.arn}"
+}
+
+resource "aws_lb_target_group_attachment" "habitat_depot" {
+  target_group_arn = "${aws_lb_target_group.habitat_depot.arn}"
+  target_id        = "${aws_instance.habitat_depot.id}"
+  port             = 443
+}
+
+data "aws_route53_zone" "hd_selected" {
+  name = "${var.habitat_depot_alb_r53_matcher}"
+}
+
+resource "aws_route53_record" "habitat_depot" {
+  zone_id = "${data.aws_route53_zone.hd_selected.zone_id}"
+  name    = "${var.habitat_depot_hostname}"
+  type    = "CNAME"
+  ttl     = "30"
+  records = ["${aws_lb.habitat_depot.dns_name}"]
+}
+
+output "habitat_depot_server_public_r53_dns" {
+  value = "https://${var.habitat_depot_hostname}"
+}
