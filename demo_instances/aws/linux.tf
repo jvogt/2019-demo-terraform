@@ -37,12 +37,12 @@ resource "aws_instance" "dev" {
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
     
-    service {
-      name = "jvdemo/chef-linux-hardening-demo"
-      channel = "unstable"
-      strategy = "at-once"
-      group = "dev"
-    }
+    # service {
+    #   name = "jvdemo/chef-linux-hardening-demo"
+    #   channel = "unstable"
+    #   strategy = "at-once"
+    #   group = "dev"
+    # }
     service {
       name = "jvdemo/national-parks"
       channel = "unstable"
@@ -97,12 +97,12 @@ resource "aws_instance" "devmongo" {
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
     
-    service {
-      name = "jvdemo/chef-linux-hardening-demo"
-      channel = "unstable"
-      strategy = "at-once"
-      group = "dev"
-    }
+    # service {
+    #   name = "jvdemo/chef-linux-hardening-demo"
+    #   channel = "unstable"
+    #   strategy = "at-once"
+    #   group = "dev"
+    # }
     service {
       name = "core/mongodb"
       channel = "stable"
@@ -157,12 +157,12 @@ resource "aws_instance" "prod" {
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
 
-    service {
-      name = "jvdemo/chef-linux-hardening-demo"
-      channel = "stable"
-      strategy = "at-once"
-      group = "prod"
-    }
+    # service {
+    #   name = "jvdemo/chef-linux-hardening-demo"
+    #   channel = "stable"
+    #   strategy = "at-once"
+    #   group = "prod"
+    # }
     service {
       name = "jvdemo/national-parks"
       channel = "stable"
@@ -216,12 +216,12 @@ resource "aws_instance" "prodmongo" {
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
     
-    service {
-      name = "jvdemo/chef-linux-hardening-demo"
-      channel = "unstable"
-      strategy = "at-once"
-      group = "prod"
-    }
+    # service {
+    #   name = "jvdemo/chef-linux-hardening-demo"
+    #   channel = "unstable"
+    #   strategy = "at-once"
+    #   group = "prod"
+    # }
     service {
       name = "core/mongodb"
       channel = "stable"
