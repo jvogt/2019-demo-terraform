@@ -171,7 +171,7 @@ EOF
   }
 
   provisioner "local-exec" {
-    inline = <<EOF
+    command = <<EOF
 ${data.template_file.final_setup_local.rendered}
 EOF
   }
