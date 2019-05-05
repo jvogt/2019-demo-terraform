@@ -13,7 +13,7 @@ resource "aws_instance" "dev" {
   ebs_optimized          = true
 
   tags {
-    Name          = "${format("dev_${random_id.instance_id.hex}_${count.index + 1}")}"
+    Name          = "dev_${random_id.instance_id.hex}_${count.index + 1}"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"
@@ -73,7 +73,7 @@ resource "aws_instance" "devmongo" {
   ebs_optimized          = true
 
   tags {
-    Name          = "${format("devmongo_${random_id.instance_id.hex}")}"
+    Name          = "devmongo_${random_id.instance_id.hex}"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"
@@ -137,7 +137,7 @@ resource "aws_instance" "prod" {
   }
 
   tags {
-    Name          = "${format("prod_${random_id.instance_id.hex}_${count.index + 1}")}"
+    Name          = "prod_${random_id.instance_id.hex}_${count.index + 1}"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"
@@ -192,7 +192,7 @@ resource "aws_instance" "prodmongo" {
   ebs_optimized          = true
 
   tags {
-    Name          = "${format("prodmongo_${random_id.instance_id.hex}")}"
+    Name          = "prodmongo_${random_id.instance_id.hex}"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"

@@ -18,7 +18,7 @@ resource "aws_instance" "permanent_peer" {
   }
 
   tags {
-    Name          = "${format("permanent_peer_${random_id.instance_id.hex}")}"
+    Name          = "permanent_peer_${random_id.instance_id.hex}"
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
     X-Project     = "${var.tag_project}"
