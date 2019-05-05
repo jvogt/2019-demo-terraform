@@ -1,7 +1,7 @@
 resource "aws_elb" "concourse_elb" {
-  name               = "concourse-${random_id.instance_id.hex}"
-  subnets            = ["${aws_subnet.concourse-subnet-a.id}"]
-  instances = ["${aws_instance.concourse_web.*.id}"]
+  name                = "concourse-${random_id.instance_id.hex}"
+  subnets             = ["${aws_subnet.concourse-subnet-a.id}"]
+  instances           = ["${aws_instance.concourse_web.*.id}"]
   security_groups     = ["${aws_security_group.concourse_elb_sg.id}"]
 
   listener {
@@ -36,6 +36,7 @@ resource "aws_instance" "concourse_db" {
   key_name      = "${var.aws_key_pair_name}"
   subnet_id                   = "${aws_subnet.concourse-subnet-a.id}"
   vpc_security_group_ids      = ["${aws_security_group.concourse_db_sg.id}"]
+  
   associate_public_ip_address = true
 
   root_block_device {
@@ -118,14 +119,12 @@ resource "aws_instance" "concourse_web" {
   vpc_security_group_ids      = ["${aws_security_group.concourse_web_worker_sg.id}"]
   associate_public_ip_address = true
 
-  depends_on = ["aws_instance.concourse_worker.0","aws_instance.concourse_worker.1","aws_instance.concourse_worker.2"]
-
   root_block_device {
     delete_on_termination = true
   }
 
   connection {
-    user       = "${var.aws_ubuntu_image_user}"
+    user        = "${var.aws_ubuntu_image_user}"
     private_key = "${file("${var.aws_key_pair_file}")}"
   }
 
