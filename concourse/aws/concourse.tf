@@ -166,7 +166,7 @@ resource "null_resource" "finish_concourse_setup" {
 
   provisioner "remote-exec" {
     inline = <<EOF
-${file("${path.module}/../common/templates/concourse-final-setup-remote")}
+${file("${path.module}/../common/templates/concourse-final-setup-remote.sh")}
 EOF
   }
 
