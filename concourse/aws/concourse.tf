@@ -156,37 +156,35 @@ resource "aws_instance" "concourse_web" {
       strategy = "at-once"
     }
   }
+}
+
+resource "null_resource" "finish_concourse_setup" {
+  connection {
+    host = "${aws_instance.concourse_web.public_ip}"
+    user       = "${var.aws_ubuntu_image_user}"
+    private_key = "${file("${var.aws_key_pair_file}")}"
+  }
 
   provisioner "remote-exec" {
-    inline = [
-      "mkdir -p keys/web keys/worker",
-      "ssh-keygen -t rsa -f ./keys/web/tsa_host_key -N ''",
-      "ssh-keygen -t rsa -f ./keys/web/session_signing_key -N ''",
-      "ssh-keygen -t rsa -f ./keys/worker/worker_key -N ''",
-      "cp ./keys/worker/worker_key.pub ./keys/web/authorized_worker_keys",
-      "cp ./keys/web/tsa_host_key.pub ./keys/worker",
-      "sudo hab file upload concourse-web.default $(date +%s) ~/keys/web/authorized_worker_keys",
-      "sudo hab file upload concourse-web.default $(date +%s) ~/keys/web/session_signing_key",
-      "sudo hab file upload concourse-web.default $(date +%s) ~/keys/web/session_signing_key.pub",
-      "sudo hab file upload concourse-web.default $(date +%s) ~/keys/web/tsa_host_key",
-      "sudo hab file upload concourse-web.default $(date +%s) ~/keys/web/tsa_host_key.pub",
-      "sudo hab file upload concourse-worker.default $(date +%s) ~/keys/worker/worker_key.pub",
-      "sudo hab file upload concourse-worker.default $(date +%s) ~/keys/worker/worker_key",
-      "sudo hab file upload concourse-worker.default $(date +%s) ~/keys/worker/tsa_host_key.pub",
-      "sudo hab stop habitat/concourse-web",
-      "sudo hab start habitat/concourse-web"
-    ]
+    inline = <<EOF
+${file("${path.module}/../common/templates/concourse-final-setup-remote")}
+EOF
+  }
+
+  provisioner "local-exec" {
+    inline = <<EOF
+${template_file.final_setup_local.rendered}
+EOF
   }
 }
 
-provisioner "local-exec" {
-  inline = [
-    "fly --target demo login --concourse-url http://${aws_elb.concourse_elb.dns_name} -u ${var.concourse_user_name} -p ${var.concourse_password}",
-    "fly --target demo sync",
-    "fly -t demo set-pipeline -p chef-code -c ../chef-pipeline.yml"
-    "fly -t demo set-pipeline -p app-code -c ../app-pipeline.yml"
-    "fly -t demo set-pipeline -p packer-code -c ../packer-pipeline.yml"
-  ]
+data "template_file" "final_setup_local" {
+  template = "${file("${path.module}/../common/templates/concourse-final-setup-local")}"
+  vars {
+    concourse_url = "${aws_elb.concourse_elb.dns_name}"
+    concourse_user_name = "${var.concourse_user_name}"
+    concourse_user_password = "${var.concourse_user_password}"
+  }
 }
 
 data "template_file" "concourse_web_toml" {
