@@ -158,13 +158,15 @@ resource "aws_instance" "concourse_web" {
 }
 
 resource "null_resource" "finish_concourse_setup" {
-  connection {
-    host = "${aws_instance.concourse_web.public_ip}"
-    user       = "${var.aws_ubuntu_image_user}"
-    private_key = "${file("${var.aws_key_pair_file}")}"
-  }
-
+  depends_on = ["aws_instance.concourse_worker", "aws_instance.concourse_web"]
+    
   provisioner "remote-exec" {
+    connection {
+      host = "${aws_instance.concourse_web.public_ip}"
+      user       = "${var.aws_ubuntu_image_user}"
+      private_key = "${file("${var.aws_key_pair_file}")}"
+    }
+
     inline = <<EOF
 ${file("${path.module}/../common/templates/concourse-final-setup-remote.sh")}
 EOF
