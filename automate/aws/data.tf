@@ -6,6 +6,7 @@ terraform {
     bucket  = "terraform-remote-state-jvogt-chef"
     region  = "us-west-2"
     key     = "2019demo/automate"
+    profile = "solutions-architects"
   }
 }
 
