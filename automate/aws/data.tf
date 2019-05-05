@@ -3,9 +3,9 @@ terraform {
   required_version = "~> 0.11.11"
   backend "s3" {
     encrypt = true
-    bucket  = "terraform-remote-state-${var.tag_contact}-chef"
-    region  = "${var.aws_region}"
-    key     = "${random_id.instance_id.hex}/automate"
+    bucket  = "terraform-remote-state-jvogt-chef"
+    region  = "us-west-2"
+    key     = "2019demo/automate"
   }
 }
 
