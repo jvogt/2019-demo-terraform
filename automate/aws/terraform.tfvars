@@ -24,7 +24,7 @@ tag_contact="jvogt"
 
 tag_application="habichef"
 
-tag_ttl="8"
+tag_ttl="120"
 
 
 ////////////////////////////////
