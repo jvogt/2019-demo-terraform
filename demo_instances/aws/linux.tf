@@ -33,6 +33,7 @@ resource "aws_instance" "dev" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -93,6 +94,7 @@ resource "aws_instance" "devmongo" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -153,6 +155,7 @@ resource "aws_instance" "prod" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -212,6 +215,7 @@ resource "aws_instance" "prodmongo" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"

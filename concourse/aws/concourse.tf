@@ -59,6 +59,7 @@ resource "aws_instance" "concourse_db" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
 
@@ -98,6 +99,7 @@ resource "aws_instance" "concourse_worker" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.concourse_web.private_ip}"

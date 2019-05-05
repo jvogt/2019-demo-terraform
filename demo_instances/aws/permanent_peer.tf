@@ -34,6 +34,7 @@ resource "aws_instance" "permanent_peer" {
   }
 
   provisioner "habitat" {
+    version = "0.79.1"
     permanent_peer = true
     use_sudo     = true
     service_type = "systemd"
