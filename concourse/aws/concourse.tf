@@ -178,7 +178,7 @@ EOF
 }
 
 data "template_file" "final_setup_local" {
-  template = "${file("${path.module}/../common/templates/concourse-final-setup-local")}"
+  template = "${file("${path.module}/../common/templates/concourse-final-setup-local.sh")}"
   vars {
     concourse_url = "${aws_elb.concourse_elb.dns_name}"
     concourse_user_name = "${var.concourse_user_name}"
