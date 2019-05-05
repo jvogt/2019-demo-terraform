@@ -20,7 +20,7 @@ tag_name="Jeff Vogt"
 
 tag_dept="sa"
 
-tag_contact="jvogt@chef.io"
+tag_contact="jvogt"
 
 tag_application="habichef"
 
