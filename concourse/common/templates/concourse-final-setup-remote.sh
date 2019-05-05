@@ -14,4 +14,4 @@ sudo hab file upload concourse-worker.default $(date +%s) ~/keys/worker/worker_k
 sudo hab file upload concourse-worker.default $(date +%s) ~/keys/worker/tsa_host_key.pub
 sudo hab stop habitat/concourse-web
 sudo hab start habitat/concourse-web
-sleep 30
+sleep 60
