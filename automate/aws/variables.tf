@@ -102,14 +102,14 @@ variable "automate_server_instance_type" {
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
 }
 
-variable "automate_alb_r53_matcher" {
-  default = "chef-demo.com."
-  description = "Matcher to find the r53 zone"
-}
-
 variable "automate_api_token" {
   default = "api-token-for-compliance-demo"
   description = "Hardcoded API token for compliance"
+}
+
+variable "automate_channel" {
+  default = "current"
+  description = ""
 }
 
 variable "automate_admin_password" {
