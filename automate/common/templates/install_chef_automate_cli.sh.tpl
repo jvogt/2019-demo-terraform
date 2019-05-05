@@ -58,7 +58,7 @@ chef-automate iam admin-access restore "${a2_admin_password}"
 
 
 echo "Preloading Profiles"
-snap install jq -y
+snap install jq
 RESULTS=$(curl -X POST \
   https://localhost/api/v0/compliance/profiles/search \
   --insecure \
