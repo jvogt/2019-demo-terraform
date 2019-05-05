@@ -60,6 +60,7 @@ chef-automate iam admin-access restore "${a2_admin_password}"
 echo "Preloading Profiles"
 RESULTS=$(curl -X POST \
   https://localhost/api/v0/compliance/profiles/search \
+  --insecure \
   -H 'api-token: $TOK')
 
 PROFILES="${preload_profiles}"
@@ -68,6 +69,7 @@ for NAME in $PROFILES; do
   VERSION=$(echo "$RESULTS" | jq -r "[.profiles[] | {name, version}| select(.name == \"$NAME\")][0] | .version")
   PAYLOAD="{\"name\": \"$NAME\", \"version\": \"$VERSION\"}"
   curl -X POST \
+  --insecure \
   'https://localhost/api/v0/compliance/profiles?owner=admin' \
   -H 'Content-Type: application/json' \
   -H "api-token: $TOK" \
