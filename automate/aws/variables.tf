@@ -116,3 +116,8 @@ variable "automate_admin_password" {
   default = "automatedemo"
   description = "Resets admin password"
 }
+
+variable "automate_preload_profiles" {
+  default = "cis-centos7-level1 cis-windows2016rtm-release1607-level1-memberserver"
+  description = "Preload profiles into asset store (space separated)"
+}

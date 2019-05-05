@@ -59,6 +59,7 @@ data "template_file" "install_chef_automate_cli" {
     automate_license = "${var.automate_license}"
     compliance_api_token = "${var.automate_api_token}"
     a2_admin_password = "${var.automate_admin_password}"
+    preload_profiles = "${var.automate_preload_profiles}"
   }
 }
 
