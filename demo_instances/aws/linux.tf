@@ -85,6 +85,8 @@ resource "aws_instance" "devmongo" {
 
   root_block_device {
     delete_on_termination = true
+    volume_size           = 20
+    volume_type           = "gp2"
   }
   
   provisioner "remote-exec" {
@@ -206,6 +208,8 @@ resource "aws_instance" "prodmongo" {
 
   root_block_device {
     delete_on_termination = true
+    volume_size           = 20
+    volume_type           = "gp2"
   }
   
   provisioner "remote-exec" {
