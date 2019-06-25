@@ -244,3 +244,11 @@ resource "aws_instance" "prodmongo" {
     # }
   }
 }
+
+output "ssh_public_ip_dev" {
+  value = "${element(concat(aws_instance.dev.*.private_ip, list("")), 0)}"
+}
+
+output "ssh_public_ip_prod" {
+  value = "${element(concat(aws_instance.prod.*.private_ip, list("")), 0)}"
+}
