@@ -108,7 +108,7 @@ resource "aws_instance" "devmongo" {
     #   group = "dev"
     # }
     service {
-      name = "core/mongodb"
+      name = "core/mongodb/3.2.10/20171016003652"
       channel = "stable"
       strategy = "at-once"
       group = "dev"
@@ -231,7 +231,7 @@ resource "aws_instance" "prodmongo" {
     #   group = "prod"
     # }
     service {
-      name = "core/mongodb"
+      name = "core/mongodb/3.2.10/20171016003652"
       channel = "stable"
       strategy = "at-once"
       group = "prod"
