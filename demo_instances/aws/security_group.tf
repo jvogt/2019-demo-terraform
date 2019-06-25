@@ -86,6 +86,15 @@ resource "aws_security_group_rule" "permanent_peer_allow_8080_tcp" {
   security_group_id        = "${aws_security_group.demo_instances.id}"
 }
 
+resource "aws_security_group_rule" "permanent_peer_allow_80_tcp" {
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.demo_instances.id}"
+}
+
 # Allow nparks mongo
 resource "aws_security_group_rule" "permanent_peer_allow_27017_tcp" {
   type                     = "ingress"
