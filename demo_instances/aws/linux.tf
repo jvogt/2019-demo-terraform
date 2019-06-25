@@ -32,8 +32,17 @@ resource "aws_instance" "dev" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /hab/accepted-licenses",
+      "mkdir -p ~/.hab/accepted-licenses",
+      "sudo touch ~/.hab/accepted-licenses/habitat",
+      "sudo touch /hab/accepted-licenses/habitat"
+    ]
+  }
+
   provisioner "habitat" {
-    version = "0.79.1"
+    channel = "unstable"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -56,6 +65,18 @@ resource "aws_instance" "dev" {
     #   channel = "unstable"
     #   strategy = "at-once"
     # }
+  }
+
+  provisioner "file" {
+    destination = "/tmp/enable_eas.sh"
+    content     = "${data.template_file.enable_automate_eas_linux_dev.rendered}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/enable_eas.sh",
+      "sudo bash /tmp/enable_eas.sh",
+    ]
   }
 }
 
@@ -95,8 +116,17 @@ resource "aws_instance" "devmongo" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /hab/accepted-licenses",
+      "mkdir -p ~/.hab/accepted-licenses",
+      "sudo touch ~/.hab/accepted-licenses/habitat",
+      "sudo touch /hab/accepted-licenses/habitat"
+    ]
+  }
+
   provisioner "habitat" {
-    version = "0.79.1"
+    channel = "unstable"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -119,6 +149,18 @@ resource "aws_instance" "devmongo" {
     #   channel = "unstable"
     #   strategy = "at-once"
     # }
+  }
+
+  provisioner "file" {
+    destination = "/tmp/enable_eas.sh"
+    content     = "${data.template_file.enable_automate_eas_linux_devmongo.rendered}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/enable_eas.sh",
+      "sudo bash /tmp/enable_eas.sh",
+    ]
   }
 }
 
@@ -156,8 +198,17 @@ resource "aws_instance" "prod" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /hab/accepted-licenses",
+      "mkdir -p ~/.hab/accepted-licenses",
+      "sudo touch ~/.hab/accepted-licenses/habitat",
+      "sudo touch /hab/accepted-licenses/habitat"
+    ]
+  }
+
   provisioner "habitat" {
-    version = "0.79.1"
+    channel = "unstable"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -180,6 +231,17 @@ resource "aws_instance" "prod" {
     #   channel = "stable"
     #   strategy = "at-once"
     # }
+  }
+  provisioner "file" {
+    destination = "/tmp/enable_eas.sh"
+    content     = "${data.template_file.enable_automate_eas_linux_prod.rendered}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/enable_eas.sh",
+      "sudo bash /tmp/enable_eas.sh",
+    ]
   }
 }
 
@@ -218,8 +280,17 @@ resource "aws_instance" "prodmongo" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /hab/accepted-licenses",
+      "mkdir -p ~/.hab/accepted-licenses",
+      "sudo touch ~/.hab/accepted-licenses/habitat",
+      "sudo touch /hab/accepted-licenses/habitat"
+    ]
+  }
+
   provisioner "habitat" {
-    version = "0.79.1"
+    channel = "unstable"
     use_sudo = true
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
@@ -243,12 +314,68 @@ resource "aws_instance" "prodmongo" {
     #   strategy = "at-once"
     # }
   }
+  provisioner "file" {
+    destination = "/tmp/enable_eas.sh"
+    content     = "${data.template_file.enable_automate_eas_linux_prodmongo.rendered}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/enable_eas.sh",
+      "sudo bash /tmp/enable_eas.sh",
+    ]
+  }
 }
 
+data "template_file" "enable_automate_eas_linux_dev" {
+  template = "${file("${path.module}/../common/templates/enable_eas.sh")}"
+
+  vars {
+    automate_hostname = "${var.automate_hostname}"
+    automate_api_token = "${var.automate_api_token}"
+    app = "national-parks"
+    env = "dev"
+  }
+}
+
+data "template_file" "enable_automate_eas_linux_devmongo" {
+  template = "${file("${path.module}/../common/templates/enable_eas.sh")}"
+
+  vars {
+    automate_hostname = "${var.automate_hostname}"
+    automate_api_token = "${var.automate_api_token}"
+    app = "monogdb"
+    env = "dev"
+  }
+}
+
+data "template_file" "enable_automate_eas_linux_prod" {
+  template = "${file("${path.module}/../common/templates/enable_eas.sh")}"
+
+  vars {
+    automate_hostname = "${var.automate_hostname}"
+    automate_api_token = "${var.automate_api_token}"
+    app = "national-parks"
+    env = "prod"
+  }
+}
+
+data "template_file" "enable_automate_eas_linux_prodmongo" {
+  template = "${file("${path.module}/../common/templates/enable_eas.sh")}"
+
+  vars {
+    automate_hostname = "${var.automate_hostname}"
+    automate_api_token = "${var.automate_api_token}"
+    app = "mongodb"
+    env = "prod"
+  }
+}
+
+
 output "ssh_public_ip_dev" {
-  value = "${element(concat(aws_instance.dev.*.private_ip, list("")), 0)}"
+  value = "${element(concat(aws_instance.dev.*.public_ip, list("")), 0)}"
 }
 
 output "ssh_public_ip_prod" {
-  value = "${element(concat(aws_instance.prod.*.private_ip, list("")), 0)}"
+  value = "${element(concat(aws_instance.prod.*.public_ip, list("")), 0)}"
 }

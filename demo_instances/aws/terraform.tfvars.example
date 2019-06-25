@@ -25,3 +25,10 @@ tag_contact="cmcchef"
 tag_application="habichef"
 
 tag_ttl="8"
+
+//////////////////////////////////
+// EAS
+
+automate_hostname = "jv-a2.chef-demo.com"
+
+automate_api_token = "api-token-for-compliance-demo"

@@ -33,8 +33,17 @@ resource "aws_instance" "permanent_peer" {
     ]
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /hab/accepted-licenses",
+      "mkdir -p ~/.hab/accepted-licenses",
+      "sudo touch ~/.hab/accepted-licenses/habitat",
+      "sudo touch /hab/accepted-licenses/habitat"
+    ]
+  }
+
   provisioner "habitat" {
-    version = "0.79.1"
+    channel = "unstable"
     permanent_peer = true
     use_sudo     = true
     service_type = "systemd"
@@ -45,8 +54,29 @@ resource "aws_instance" "permanent_peer" {
       strategy = "at-once"
     }
   }
+  provisioner "file" {
+    destination = "/tmp/enable_eas.sh"
+    content     = "${data.template_file.enable_automate_eas_linux_ppeer.rendered}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/enable_eas.sh",
+      "sudo bash /tmp/enable_eas.sh",
+    ]
+  }
 }
 
+data "template_file" "enable_automate_eas_linux_ppeer" {
+  template = "${file("${path.module}/../common/templates/enable_eas.sh")}"
+
+  vars {
+    automate_hostname = "${var.automate_hostname}"
+    automate_api_token = "${var.automate_api_token}"
+    app = "permanent-peer"
+    env = "default"
+  }
+}
 output "permanent_peer_public_ip" {
   value = "${aws_instance.permanent_peer.public_ip}"
 }

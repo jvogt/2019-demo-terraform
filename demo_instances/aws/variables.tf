@@ -78,3 +78,15 @@ variable "demo_instance_type" {
   default = "m4.large"
   description = "AWS instance type to be used for the Demo Instances"
 }
+
+/////////////////////////////////
+// EAS Vars
+
+variable "automate_hostname" {
+  description = "Automate Hostname for EAS"
+}
+
+variable "automate_api_token" {
+  default = "api-token-for-compliance-demo"
+  description = "API token for automate reporting"
+}

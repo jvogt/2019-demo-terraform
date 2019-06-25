@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "Prepping for Automate Installation"
-sudo hostnamectl set-hostname ${automate_hostname}
-sudo sysctl -w vm.max_map_count=262144
-sudo sysctl -w vm.dirty_expire_centisecs=20000
+hostnamectl set-hostname ${automate_hostname}
+sysctl -w vm.max_map_count=262144
+sysctl -w vm.dirty_expire_centisecs=20000
 
 which unzip >/dev/null 2>&1
 if [[ $? != 0 ]]; then
@@ -30,20 +30,11 @@ sed -i 's/channel = \".*\"/channel = \"${channel}\"/g' /tmp/config.toml
 sed -i 's/license = \".*\"/license = \"${automate_license}\"/g' /tmp/config.toml
 rm -f /tmp/ssl_cert /tmp/ssl_key
 
-echo "Enabling EAS"
-echo "[event_gateway]
-        [event_gateway.v1]
-          [event_gateway.v1.sys]
-            [event_gateway.v1.sys.service]
-              disable_frontend_tls = true" >> /tmp/config.toml
-sed -i 's/channel = \".*\"/channel = \"acceptance\"/g' /tmp/config.toml
-
-mv /tmp/config.toml /etc/chef-automate/config.toml
-
+mkdir -p /etc/chef-automate
+cp /tmp/config.toml /etc/chef-automate/config.toml
 
 echo "Installing Chef Automate"
 chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa
-
 
 echo "Adding hardcoded api token"
 export TOK=`chef-automate admin-token`
@@ -87,4 +78,30 @@ for NAME in $PROFILES; do
 done
 
 echo "Enabling EAS"
+
+echo "Patching TLS config for EAS"
+echo "[event_gateway]
+        [event_gateway.v1]
+          [event_gateway.v1.sys]
+            [event_gateway.v1.sys.service]
+              disable_frontend_tls = true" >> /tmp/easpatch.toml
+
+chef-automate config patch /tmp/easpatch.toml
+
+sleep 30
+
+echo "Enabling EAS"
 chef-automate applications enable
+
+sleep 30
+
+# echo "Subscribing to Acceptance Channel"
+# echo "[deployment.v1]
+#         [deployment.v1.svc]
+#           # Habitat channel to install hartifact from.
+#           # Can be 'dev', 'current', or 'acceptance'
+#           channel = \"acceptance\"" >> /tmp/acceptance.toml
+
+# chef-automate config patch /tmp/acceptance.toml
+
+echo "Done"

@@ -1,3 +1,5 @@
+# NOTE! ADD HTTPS OVERRIDE 443 HEALTHCHECK to 4222
+
 resource "aws_lb" "chef_automate" {
   load_balancer_type = "application"
   name               = "chef-automate-${random_id.instance_id.hex}"
@@ -27,6 +29,18 @@ resource "aws_lb_target_group" "chef_automate" {
     create_before_destroy = true
   }
 }
+resource "aws_lb_target_group" "chef_automate_hab" {
+  name                 = "chef-automatehab-${random_id.instance_id.hex}"
+  vpc_id               = "${aws_vpc.automate-vpc.id}"
+  port                 = "4222"
+  protocol             = "HTTP"
+  
+  depends_on = ["aws_lb.chef_automate"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 data "aws_acm_certificate" "chef_automate" {
   domain   = "${var.automate_alb_acm_matcher}"
@@ -45,6 +59,16 @@ resource "aws_lb_listener" "chef_automate" {
   }
 }
 
+resource "aws_lb_listener" "chef_automate_hab" {
+  load_balancer_arn = "${aws_lb.chef_automate.arn}"
+  port              = "4222"
+  protocol          = "HTTP"
+  default_action {
+    target_group_arn = "${aws_lb_target_group.chef_automate_hab.id}"
+    type             = "forward"
+  }
+}
+
 resource "aws_lb_listener_certificate" "chef_automate" {
   listener_arn    = "${aws_lb_listener.chef_automate.arn}"
   certificate_arn = "${data.aws_acm_certificate.chef_automate.arn}"
@@ -54,6 +78,11 @@ resource "aws_lb_target_group_attachment" "chef_automate" {
   target_group_arn = "${aws_lb_target_group.chef_automate.arn}"
   target_id        = "${aws_instance.chef_automate.id}"
   port             = 443
+}
+resource "aws_lb_target_group_attachment" "chef_automate_hab" {
+  target_group_arn = "${aws_lb_target_group.chef_automate_hab.arn}"
+  target_id        = "${aws_instance.chef_automate.id}"
+  port             = 4222
 }
 
 data "aws_route53_zone" "selected" {

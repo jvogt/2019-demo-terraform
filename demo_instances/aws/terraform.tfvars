@@ -25,3 +25,10 @@ tag_contact="jvogt"
 tag_application="habichef"
 
 tag_ttl="120"
+
+//////////////////////////////////
+// EAS
+
+automate_hostname = "34.214.88.18"
+
+automate_api_token = "api-token-for-compliance-demo"
