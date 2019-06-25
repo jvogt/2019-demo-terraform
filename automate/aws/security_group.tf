@@ -129,6 +129,16 @@ resource "aws_security_group_rule" "ingress_chef_automate_allow_7331_tcp" {
   source_security_group_id = "${aws_security_group.chef_automate.id}"
 }
 
+# Allow 4222 for eas
+resource "aws_security_group_rule" "ingress_chef_automate_allow_4222_tcp" {
+  type                     = "ingress"
+  from_port                = 4222
+  to_port                  = 4222
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.chef_automate.id}"
+}
+
 # Egress: ALL
 resource "aws_security_group_rule" "linux_egress_allow_0-65535_all" {
   type              = "egress"

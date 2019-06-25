@@ -29,6 +29,15 @@ sed -i 's/fqdn = \".*\"/fqdn = \"${automate_hostname}\"/g' /tmp/config.toml
 sed -i 's/channel = \".*\"/channel = \"${channel}\"/g' /tmp/config.toml
 sed -i 's/license = \".*\"/license = \"${automate_license}\"/g' /tmp/config.toml
 rm -f /tmp/ssl_cert /tmp/ssl_key
+
+echo "Enabling EAS"
+echo "[event_gateway]
+        [event_gateway.v1]
+          [event_gateway.v1.sys]
+            [event_gateway.v1.sys.service]
+              disable_frontend_tls = true" >> /tmp/config.toml
+sed -i 's/channel = \".*\"/channel = \"acceptance\"/g' /tmp/config.toml
+
 mv /tmp/config.toml /etc/chef-automate/config.toml
 
 
@@ -76,3 +85,6 @@ for NAME in $PROFILES; do
   -H "api-token: $TOK" \
   -d "$PAYLOAD"
 done
+
+echo "Enabling EAS"
+chef-automate applications enable
