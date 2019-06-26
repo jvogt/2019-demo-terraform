@@ -44,6 +44,7 @@ resource "aws_instance" "permanent_peer" {
 
   provisioner "habitat" {
     channel = "unstable"
+    version = "0.83.0-dev"
     permanent_peer = true
     use_sudo     = true
     service_type = "systemd"
