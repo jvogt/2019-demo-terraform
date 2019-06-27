@@ -29,6 +29,6 @@ tag_ttl="120"
 //////////////////////////////////
 // EAS
 
-automate_hostname = "34.214.88.18"
+automate_hostname = "jv-a2.chef-demo.com"
 
 automate_api_token = "api-token-for-compliance-demo"
