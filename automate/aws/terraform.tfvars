@@ -12,9 +12,9 @@ aws_key_pair_name = "jvogt-sa-aws"
 ////////////////////////////////
 // Object Tags
 
-tag_customer="Oracle GBUCS"
+tag_customer="Kaiser"
 
-tag_project="Gbucs Demo"
+tag_project="Kaiser Demo"
 
 tag_name="Jeff Vogt"
 
@@ -24,7 +24,7 @@ tag_contact="jvogt"
 
 tag_application="habichef"
 
-tag_ttl="120"
+tag_ttl="48"
 
 
 ////////////////////////////////
