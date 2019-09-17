@@ -1,4 +1,0 @@
-terraform.tfvars
-chef_automate_alb.tf
-habitat_depot_alb.tf
-terraform.tfstate*
