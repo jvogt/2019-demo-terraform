@@ -1,3 +1,0 @@
-[attributes]
-ntp.servers = ["ntp0.prod.acme.internal", "ntp1.prod.acme.internal"]
-apache.log_level = "emerg"

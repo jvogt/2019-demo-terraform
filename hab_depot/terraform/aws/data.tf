@@ -1,13 +1,19 @@
-
 terraform {
-  required_version = "= 0.11.11" // Terraform frequently puts breaking changes into minor and patch version releases. _Always_ hard pin to the latest known and tested working version. Do not trust semantic versioning.
+  required_version = "~> 0.11.11"
+  backend "s3" {
+    encrypt = true
+    bucket  = "terraform-remote-state-jvogt-chef"
+    region  = "us-west-2"
+    key     = "2019demo/habdepot"
+    profile = "solutions-architects"
+  }
 }
 
 provider "aws" {
-  region                  = "${var.aws_region}"
-  profile                 = "${var.aws_profile}"
+  version = "~> 2.8"
+  region  = "${var.aws_region}"
+  profile = "${var.aws_profile}"
 }
-
 
 resource "random_id" "instance_id" {
   byte_length = 4
