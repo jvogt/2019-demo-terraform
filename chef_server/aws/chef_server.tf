@@ -59,6 +59,7 @@ data "template_file" "install_chef_server_cli" {
     chef_user_email = "${var.chef_user_email}"
     chef_organization_id = "${var.chef_organization_id}"
     chef_organization_name = "${var.chef_organization_name}"
+    chef_user_public_key = "${var.chef_user_public_key}"
   }
 }
 

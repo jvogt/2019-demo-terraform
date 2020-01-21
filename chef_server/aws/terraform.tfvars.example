@@ -1,36 +1,43 @@
 ////////////////////////////////
 // AWS Connection
 
-aws_region="us-east-1"
+aws_region = "us-west-2"
 
-aws_profile="default"
+aws_profile = "solutions-architects"
 
-aws_key_pair_file = "~/.ssh/habichef_demo.pem"
+aws_key_pair_file = "~/Desktop/jvogt-sa-aws.pem"
 
-aws_key_pair_name = "habichef_demo"
+aws_key_pair_name = "jvogt-sa-aws"
 
 ////////////////////////////////
 // Object Tags
 
-tag_customer="habichef_demo"
+tag_customer = "Customer"
 
-tag_project="habichef_demo"
+tag_project = "Demo"
 
-tag_name="cheffy mcchef"
+tag_name = "Jeff Vogt"
 
-tag_dept="ace"
+tag_dept = "sa"
 
-tag_contact="cmcchef"
+tag_contact = "jvogt"
 
-tag_application="habichef"
+tag_application = "chefserver"
 
-tag_ttl="8"
+tag_ttl = "48"
+
 
 ////////////////////////////////
-// Automate Config
+// Chef Server Config
 
-chef_server_hostname="jv-chef.chef-demo.com"
+chef_server_hostname = "jv-chef.chef-demo.com"
 chef_server_alb_acm_matcher = "*.chef-demo.com"
 chef_server_alb_r53_matcher = "chef-demo.com."
 
-automate_hostname="jv-a2.chef-demo.com"
+automate_hostname = "jv-a2.chef-demo.com"
+
+chef_user_public_key = <<EOF
+-----BEGIN PUBLIC KEY-----
+...
+-----END PUBLIC KEY-----
+EOF

@@ -2,17 +2,16 @@
 // AWS Connection
 
 variable "aws_region" {
-  default="us-east-1"
+  default = "us-east-1"
   description = "aws_region is the AWS region in which we will build instances"
 }
 
 variable "aws_profile" {
-  default="default"
+  default = "default"
   description = "aws_profile is the profile from your credentials file which we will use to authenticate to the AWS API."
 }
 
 variable "aws_key_pair_name" {
-  default="habichef_demo"
   description = "aws_key_pair_naem is the AWS keypair we will configure on all newly built instances."
 }
 
@@ -100,6 +99,10 @@ variable "chef_username" {
 variable "chef_user" {
   default = "Chef User"
   description = "The chef user. eg: 'John Doe'"
+}
+
+variable "chef_user_public_key" {
+  description = "The chef user public key"
 }
 
 variable "chef_password" {
