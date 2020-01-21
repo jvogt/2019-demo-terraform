@@ -2,17 +2,17 @@
 // AWS Connection
 
 variable "aws_region" {
-  default="us-east-1"
+  default = "us-east-1"
   description = "aws_region is the AWS region in which we will build instances"
 }
 
 variable "aws_profile" {
-  default="default"
+  default = "default"
   description = "aws_profile is the profile from your credentials file which we will use to authenticate to the AWS API."
 }
 
 variable "aws_key_pair_name" {
-  default="habichef_demo"
+  default = "habichef_demo"
   description = "aws_key_pair_naem is the AWS keypair we will configure on all newly built instances."
 }
 
@@ -74,7 +74,7 @@ variable "platform" {
 // Chef Automate
 
 variable "channel" {
-  default="current"
+  default = "current"
   description = "channel is the habitat channel which will be used for installing A2"
 }
 
@@ -118,6 +118,6 @@ variable "automate_admin_password" {
 }
 
 variable "automate_preload_profiles" {
-  default = "cis-centos7-level1 cis-windows2016rtm-release1607-level1-memberserver"
+  default = "cis-centos7-level1 cis-windows2016rtm-release1607-level1-memberserver cis-appleosx10.12-level1"
   description = "Preload profiles into asset store (space separated)"
 }
