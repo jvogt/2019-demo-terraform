@@ -50,7 +50,7 @@ curl -s \
   --insecure \
   -H "api-token: $TOK" \
   -H "Content-Type: application/json" \
-  -d '{"subjects":["token:00000000-0000-0000-0000-000000000000"], "action":"read", "resource":"compliance:*"}'
+  -d '{"subjects":["token:00000000-0000-0000-0000-000000000000"], "action":"*", "resource":"compliance:*"}'
 
 
 echo "Resetting Admin Password"
