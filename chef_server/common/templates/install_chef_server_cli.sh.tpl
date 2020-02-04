@@ -27,6 +27,7 @@ chef-server-ctl restart opscode-erchef
 echo "data_collector['root_url'] = 'https://${automate_hostname}/data-collector/v0/'" >> /etc/opscode/chef-server.rb
 echo "data_collector['proxy'] = true" >> /etc/opscode/chef-server.rb
 echo "profiles['root_url'] = 'https://${automate_hostname}'" >> /etc/opscode/chef-server.rb
+echo "opscode_erchef['max_request_size'] = '100000000'" >> /etc/opscode/chef-server.rb
 chef-server-ctl reconfigure
 
 echo "Finished"
