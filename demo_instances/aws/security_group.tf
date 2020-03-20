@@ -105,6 +105,32 @@ resource "aws_security_group_rule" "permanent_peer_allow_27017_tcp" {
   security_group_id        = "${aws_security_group.demo_instances.id}"
 }
 
+### Windows
+resource "aws_security_group_rule" "windows_allow_3389_tcp" {
+  type                     = "ingress"
+  from_port                = 3389
+  to_port                  = 3389
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.demo_instances.id}"
+}
+resource "aws_security_group_rule" "windows_allow_5985-5986_tcp" {
+  type                     = "ingress"
+  from_port                = 5985
+  to_port                  = 5986
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.demo_instances.id}"
+}
+
+resource "aws_security_group_rule" "windows_allow_8530_tcp" {
+  type                     = "ingress"
+  from_port                = 8530
+  to_port                  = 8530
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.demo_instances.id}"
+}
 # Egress: ALL
 resource "aws_security_group_rule" "linux_egress_allow_0-65535_all" {
   type              = "egress"
