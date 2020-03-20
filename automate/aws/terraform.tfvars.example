@@ -12,20 +12,11 @@ aws_key_pair_name = "jvogt-sa-aws"
 ////////////////////////////////
 // Object Tags
 
-tag_customer = "Customer"
-
-tag_project = "Demo"
-
 tag_name = "Jeff Vogt"
 
 tag_dept = "sa"
 
 tag_contact = "jvogt"
-
-tag_application = "a2"
-
-tag_ttl = "48"
-
 
 ////////////////////////////////
 // Automate Config

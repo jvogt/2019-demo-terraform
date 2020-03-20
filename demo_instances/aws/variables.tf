@@ -28,6 +28,7 @@ variable "tag_customer" {
 
 variable "tag_project" {
   description = "tag_project is the project tag which will be added to AWS"
+  default = "Demo"
 }
 
 variable "tag_name" {
@@ -44,10 +45,11 @@ variable "tag_contact" {
 
 variable "tag_application" {
   description = "tag_application is the application tag which will be added to AWS"
+  default = "demoinstances"
 }
 
 variable "tag_ttl" {
-  default = 8
+  description = "TTL in hours"
 }
 
 ////////////////////////////////
