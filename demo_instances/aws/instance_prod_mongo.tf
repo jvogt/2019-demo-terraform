@@ -67,6 +67,19 @@ resource "aws_instance" "prodmongo" {
     #   strategy = "at-once"
     # }
   }
+
+  provisioner "chef" {
+    server_url = "https://jv-chef.chef-demo.com/organizations/acme"
+    user_key = "${file("/Users/jvogt/.chef/chefuser.pem")}"
+    user_name = "chefuser"
+    recreate_client = true
+    client_options  = ["chef_license 'accept'"]
+    use_policyfile = true
+    policy_group = "prod"
+    policy_name = "acme_mongodb"
+    node_name = "prod-mongo-1"
+  }
+
   provisioner "file" {
     destination = "/tmp/enable_eas.sh"
     content     = "${data.template_file.enable_automate_eas_linux_prodmongo.rendered}"

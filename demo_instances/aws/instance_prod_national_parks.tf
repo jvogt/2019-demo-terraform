@@ -47,12 +47,12 @@ resource "aws_instance" "prod" {
     service_type = "systemd"
     peer = "${aws_instance.permanent_peer.private_ip}"
 
-    service {
-      name = "jvdemo/chef-linux-hardening-demo"
-      channel = "stable"
-      strategy = "at-once"
-      group = "prod"
-    }
+    # service {
+    #   name = "jvdemo/chef-linux-hardening-demo"
+    #   channel = "stable"
+    #   strategy = "at-once"
+    #   group = "prod"
+    # }
     service {
       name = "jvdemo/national-parks"
       channel = "stable"
@@ -66,6 +66,19 @@ resource "aws_instance" "prod" {
     #   strategy = "at-once"
     # }
   }
+
+  provisioner "chef" {
+    server_url = "https://jv-chef.chef-demo.com/organizations/acme"
+    user_key = "${file("/Users/jvogt/.chef/chefuser.pem")}"
+    user_name = "chefuser"
+    recreate_client = true
+    client_options  = ["chef_license 'accept'"]
+    use_policyfile = true
+    policy_group = "prod"
+    policy_name = "acme_app"
+    node_name = "prod-app-${count.index + 1}"
+  }
+
   provisioner "file" {
     destination = "/tmp/enable_eas.sh"
     content     = "${data.template_file.enable_automate_eas_linux_prod.rendered}"
