@@ -37,20 +37,31 @@ echo "Installing Chef Automate"
 chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa
 
 echo "Adding hardcoded api token"
-export TOK=`chef-automate admin-token`
+if [[ "$(chef-automate iam version)" = "IAM v2."* ]]
+then
+  export TOK=`chef-automate iam token create demo --admin`
+  echo version 2.x!
+fi
 
+if [ "$(sudo chef-automate iam version)" = 'IAM v1.0' ]
+then
+  export TOK=`chef-automate admin-token`
+  echo version 1.0!
+fi
+
+echo "ADMIN_TOKEN=$TOK"
 curl -X POST \
-  https://localhost/api/v0/auth/tokens \
+  https://localhost/apis/iam/v2/tokens \
   --insecure \
   -H "api-token: $TOK" \
-  -d '{"value": "${compliance_api_token}","description": "From Terraform","active": true, "id": "00000000-0000-0000-0000-000000000000"}'
+  -d '{"name":"demo-token","value": "${compliance_api_token}","description": "From Terraform","active": true, "id": "demo-token"}'
 
 curl -s \
-  https://localhost/api/v0/auth/policies \
+  https://localhost/apis/iam/v2/policies/administrator-access/members:add \
   --insecure \
   -H "api-token: $TOK" \
   -H "Content-Type: application/json" \
-  -d '{"subjects":["token:00000000-0000-0000-0000-000000000000"], "action":"*", "resource":"compliance:*"}'
+  -d '{"members":["token:demo-token"]}'
 
 
 echo "Resetting Admin Password"
