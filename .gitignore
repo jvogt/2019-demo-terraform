@@ -2,3 +2,6 @@
 .DS_Store
 terraform.tfstate*
 *.tfvars
+*.tfstate
+hab_depot/
+jenkins/
