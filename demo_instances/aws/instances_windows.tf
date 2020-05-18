@@ -52,8 +52,8 @@ resource "aws_instance" "windows_node_1" {
   provisioner "chef" {
     use_policyfile  = "true"
     policy_group    = "stage"
-    policy_name     = "hpe_acme_app_1"
-    node_name       = "hpe_acme_app_1_stage"
+    policy_name     = "acme_app_1"
+    node_name       = "acme_app_1_stage"
     server_url      = "https://jv-chef.chef-demo.com/organizations/acme"
     recreate_client = true
     user_name       = "chefuser"
@@ -120,8 +120,8 @@ resource "aws_instance" "windows_node_2" {
   provisioner "chef" {
     use_policyfile  = "true"
     policy_group    = "prod"
-    policy_name     = "hpe_acme_app_1"
-    node_name       = "hpe_acme_app_1_prod"
+    policy_name     = "acme_app_1"
+    node_name       = "acme_app_1_prod"
     server_url      = "https://jv-chef.chef-demo.com/organizations/acme"
     recreate_client = true
     user_name       = "chefuser"
