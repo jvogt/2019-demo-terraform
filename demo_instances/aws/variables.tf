@@ -76,7 +76,7 @@ variable "permanent_peer_instance_type" {
 }
 
 variable "demo_instance_type" {
-  default = "m4.large"
+  default = "m5.large"
   description = "AWS instance type to be used for the Demo Instances"
 }
 

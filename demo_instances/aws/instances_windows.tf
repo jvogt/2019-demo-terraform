@@ -22,7 +22,7 @@ resource "aws_instance" "windows_node_1" {
     https    = false
   }
   ami                         = "${data.aws_ami.win2016.id}"
-  instance_type               = "m4.xlarge"
+  instance_type               = "m5.xlarge"
   key_name                    = "${var.aws_key_pair_name}"
   subnet_id                   = "${aws_subnet.demo_instances-subnet-a.id}"
   vpc_security_group_ids      = ["${aws_security_group.demo_instances.id}"]
@@ -48,13 +48,13 @@ resource "aws_instance" "windows_node_1" {
   provisioner "local-exec" {
     command = "sleep 210"
   }
-
+  
   provisioner "chef" {
     use_policyfile  = "true"
     policy_group    = "stage"
     policy_name     = "acme_app_1"
     node_name       = "acme_app_1_stage"
-    server_url      = "https://jv-chef.chef-demo.com/organizations/acme"
+    server_url      = "https://jv-a2.chef-demo.com/organizations/acme"
     recreate_client = true
     user_name       = "chefuser"
     user_key        = "${file("/Users/jvogt/.chef/chefuser.pem")}"
@@ -122,7 +122,7 @@ resource "aws_instance" "windows_node_2" {
     policy_group    = "prod"
     policy_name     = "acme_app_1"
     node_name       = "acme_app_1_prod"
-    server_url      = "https://jv-chef.chef-demo.com/organizations/acme"
+    server_url      = "https://jv-a2.chef-demo.com/organizations/acme"
     recreate_client = true
     user_name       = "chefuser"
     user_key        = "${file("/Users/jvogt/.chef/chefuser.pem")}"

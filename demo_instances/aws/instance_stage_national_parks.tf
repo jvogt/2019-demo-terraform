@@ -68,7 +68,7 @@ resource "aws_instance" "stage" {
   }
 
   provisioner "chef" {
-    server_url = "https://jv-chef.chef-demo.com/organizations/acme"
+    server_url = "https://jv-a2.chef-demo.com/organizations/acme"
     user_key = "${file("/Users/jvogt/.chef/chefuser.pem")}"
     user_name = "chefuser"
     recreate_client = true
