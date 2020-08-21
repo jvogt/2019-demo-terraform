@@ -60,6 +60,15 @@ data "template_file" "install_chef_automate_cli" {
     compliance_api_token = "${var.automate_api_token}"
     a2_admin_password = "${var.automate_admin_password}"
     preload_profiles = "${var.automate_preload_profiles}"
+    # extra_products = "--product automate --product infra-server --product desktop"
+    extra_products = "--product automate --product infra-server"
+    chef_username = "${var.chef_username}"
+    chef_user = "${var.chef_user}"
+    chef_password = "${var.chef_password}"
+    chef_user_email = "${var.chef_user_email}"
+    chef_organization_id = "${var.chef_organization_id}"
+    chef_organization_name = "${var.chef_organization_name}"
+    chef_user_public_key = "${var.chef_user_public_key}"
   }
 }
 

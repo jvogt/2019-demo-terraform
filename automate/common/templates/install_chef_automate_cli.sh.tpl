@@ -34,7 +34,7 @@ mkdir -p /etc/chef-automate
 cp /tmp/config.toml /etc/chef-automate/config.toml
 
 echo "Installing Chef Automate"
-chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa
+chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa ${extra_products}
 
 echo "Adding hardcoded api token"
 if [[ "$(chef-automate iam version)" = "IAM v2."* ]]
@@ -54,7 +54,7 @@ curl -X POST \
   https://localhost/apis/iam/v2/tokens \
   --insecure \
   -H "api-token: $TOK" \
-  -d '{"name":"demo-token","value": "${compliance_api_token}","description": "From Terraform","active": true, "id": "demo-token"}'
+  -d '{"name":"demo-token","value": "${compliance_api_token}","active": true, "id": "demo-token"}'
 
 curl -s \
   https://localhost/apis/iam/v2/policies/administrator-access/members:add \
@@ -114,5 +114,12 @@ sleep 30
 #           channel = \"acceptance\"" >> /tmp/acceptance.toml
 
 # chef-automate config patch /tmp/acceptance.toml
+
+echo "Setting up Chef Server Org & Users"
+echo "${chef_user_public_key}" > /tmp/chefuser.pem
+chef-server-ctl user-create ${chef_username} ${chef_user} ${chef_user_email} ${chef_password} --filename /tmp/stack.pem
+chef-server-ctl add-user-key ${chef_username} --public-key-path /tmp/chefuser.pem
+chef-server-ctl org-create ${chef_organization_id} "${chef_organization_name}" --association_user ${chef_username} --filename /tmp/stack-validator.pem
+
 
 echo "Done"

@@ -100,7 +100,7 @@ variable "automate_alb_r53_matcher" {
 }
 
 variable "automate_server_instance_type" {
-  default = "m4.xlarge"
+  default = "m5.xlarge"
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
 }
 
@@ -120,6 +120,41 @@ variable "automate_admin_password" {
 }
 
 variable "automate_preload_profiles" {
-  default = "cis-centos7-level1 cis-windows2016rtm-release1607-level1-memberserver cis-appleosx10.12-level1"
+  default = "cis-centos7-level1 cis-windows2016rtm-release1607-level1-memberserver cis-applemacos10.13-level1 cis-windows10-1511-level1"
   description = "Preload profiles into asset store (space separated)"
+}
+
+
+variable "chef_username" {
+  default = "chefuser"
+  description = "Username for the main user on the chef server. eg: 'johndoe'"
+}
+
+variable "chef_user" {
+  default = "Chef User"
+  description = "The chef user. eg: 'John Doe'"
+}
+
+variable "chef_user_public_key" {
+  description = "The chef user public key"
+}
+
+variable "chef_password" {
+  default = "chefpassword"
+  description = "The chef password. eg: 'VerySecurePassword'"
+}
+
+variable "chef_user_email" {
+  default = "chefuser@chef.io"
+  description = "The chef user email. eg: 'devops@your-domain.com'"
+}
+
+variable "chef_organization_id" {
+  default = "acme"
+  description = "The chef organization id. eg: 'yourcompany'"
+}
+
+variable "chef_organization_name" {
+  default = "Acme Co"
+  description = "The chef organization name. eg: 'Your Company'"
 }

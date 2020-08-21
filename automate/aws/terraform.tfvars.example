@@ -31,3 +31,9 @@ automate_license = "..."
 
 automate_alb_acm_matcher = "*.chef-demo.com"
 automate_alb_r53_matcher = "chef-demo.com."
+
+chef_user_public_key = <<EOF
+-----BEGIN PUBLIC KEY-----
+...
+-----END PUBLIC KEY-----
+EOF
